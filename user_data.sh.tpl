@@ -87,7 +87,7 @@ docker run -d \
   --restart=always \
   -p 9106:9106 \
   -v /opt/prometheus/cloudwatch_exporter.yml:/config/config.yml \
-  prom/cloudwatch-exporter:v0.19.0 \
+  prom/cloudwatch-exporter:v0.16.0 \
   --config.file=/config/config.yml
 
 # 4b. Prometheus
