@@ -20,7 +20,7 @@ variable "my_ip" {
   description = "Seu endereço IP (CIDR) para acesso SSH, Grafana (3000) e Prometheus (9090)."
   type        = string
   # IMPORTANTE: Troque pelo seu IP. Use "0.0.0.0/0" apenas para testes rápidos.
-  default = "YOUR_IP/32"
+  default = "0.0.0.0/0"
 }
 
 variable "ebs_device_name" {
