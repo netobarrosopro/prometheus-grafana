@@ -13,7 +13,7 @@ variable "project_name" {
 variable "instance_type" {
   description = "Tipo da instância EC2 para o servidor de monitoramento."
   type        = string
-  default     = "t3.medium" # Prometheus e Grafana podem consumir bastante RAM
+  default     = "c7i-flex.large" # Prometheus e Grafana podem consumir bastante RAM
 }
 
 variable "my_ip" {
