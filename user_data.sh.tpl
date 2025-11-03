@@ -8,7 +8,10 @@ systemctl start docker
 systemctl enable docker
 usermod -aG docker ec2-user
 
-# 2. Preparação do Volume EBS
+# ------------------------------------------------------------------
+# 2. Preparação do Volume EBS (LÓGICA CORRIGIDA)
+# ------------------------------------------------------------------
+
 # Espera o volume estar disponível
 while [ ! -e ${EBS_DEVICE} ]; do
   echo "Aguardando o volume ${EBS_DEVICE}..."
@@ -20,24 +23,28 @@ if [ -z "$(file -s ${EBS_DEVICE} | grep ext4)" ]; then
   mkfs -t ext4 ${EBS_DEVICE}
 fi
 
-# Cria diretórios para os dados
-mkdir -p /data/prometheus
-mkdir -p /data/grafana
+# 1. Cria o PONTO DE MONTAGEM (um diretório vazio)
+mkdir -p /data
 
-# Monta o volume
+# 2. Monta o volume no ponto de montagem
 mount ${EBS_DEVICE} /data
 echo "${EBS_DEVICE} /data ext4 defaults,nofail 0 2" >> /etc/fstab
 
-# Define permissões corretas para os contêineres
-# Prometheus (nobody:nobody) e Grafana (grafana:grafana)
+# 3. AGORA, cria os diretórios DENTRO do volume montado
+mkdir -p /data/prometheus
+mkdir -p /data/grafana
+
+# 4. Define permissões corretas nos diretórios recém-criados
 chown -R 65534:65534 /data/prometheus
 chown -R 472:472 /data/grafana
+# ------------------------------------------------------------------
+# FIM DA SEÇÃO CORRIGIDA
+# ------------------------------------------------------------------
 
 # 3. Criação dos Arquivos de Configuração
 mkdir -p /opt/prometheus
 
 # 3a. Configuração do CloudWatch Exporter (config.yml)
-# Monitora EC2 (avg/max por 5m) e RDS
 cat <<EOF > /opt/prometheus/cloudwatch_exporter.yml
 ---
 region: ${AWS_REGION}
