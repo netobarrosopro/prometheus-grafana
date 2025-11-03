@@ -19,6 +19,9 @@ resource "aws_instance" "monitoring_server" {
   ami           = data.aws_ami.amazon_linux_2.id
   instance_type = var.instance_type
 
+  #Key para acesso
+  key_name = var.aws_key_pair_name
+
   subnet_id                   = aws_subnet.monitoring_subnet.id
   vpc_security_group_ids      = [aws_security_group.monitoring_sg.id]
   iam_instance_profile        = aws_iam_instance_profile.monitoring_profile.name
