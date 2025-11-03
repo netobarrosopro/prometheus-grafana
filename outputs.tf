@@ -1,14 +1,14 @@
 output "monitoring_server_public_ip" {
-  description = "IP público do servidor de monitoramento"
+  description = "IP Público do servidor de Monitoramento"
   value       = aws_instance.monitoring_server.public_ip
 }
 
-output "monitoring_server_id" {
-  description = "ID da instância EC2 de monitoramento"
-  value       = aws_instance.monitoring_server.id
+output "prometheus_ui" {
+  description = "URL da interface do Prometheus"
+  value       = "http://${aws_instance.monitoring_server.public_ip}:9090"
 }
 
-output "ebs_volume_id" {
-  description = "ID do volume EBS de dados"
-  value       = aws_ebs_volume.monitoring_data.id
+output "grafana_ui" {
+  description = "URL da interface do Grafana"
+  value       = "http://${aws_instance.monitoring_server.public_ip}:3000"
 }

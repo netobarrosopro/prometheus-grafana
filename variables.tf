@@ -1,41 +1,30 @@
 variable "aws_region" {
-  description = "Região da AWS para os recursos"
+  description = "Região da AWS para implantar os recursos."
   type        = string
   default     = "us-east-1"
 }
 
-variable "availability_zone" {
-  description = "Zona de Disponibilidade. Deve ser a mesma para a EC2 e o EBS."
+variable "project_name" {
+  description = "Nome do projeto para usar em tags."
   type        = string
-  default     = "us-east-1a" # IMPORTANTE: Escolha uma AZ
-}
-
-variable "my_ip" {
-  description = "Seu IP público para liberar acesso SSH e Grafana"
-  type        = string
-  sensitive   = true # Boa prática para IPs
-  # Sem default, force o usuário a inserir:
-  # terraform apply -var="my_ip=1.2.3.4/32"
-}
-
-variable "ecs_cluster_name" {
-  description = "Nome do Cluster ECS onde o n8n está"
-  type        = string
-}
-
-variable "ecs_service_name" {
-  description = "Nome do Serviço ECS do n8n"
-  type        = string
+  default     = "monitoring"
 }
 
 variable "instance_type" {
-  description = "Tipo de instância EC2 para o servidor de monitoramento"
+  description = "Tipo da instância EC2 para o servidor de monitoramento."
   type        = string
-  default     = "t3.small" # t3.micro pode ser pouco para Prome+Grafana
+  default     = "t3.medium" # Prometheus e Grafana podem consumir bastante RAM
 }
 
-variable "ebs_volume_size" {
-  description = "Tamanho em GiB do volume EBS para dados (Prometheus/Grafana)"
-  type        = number
-  default     = 20 # Comece com 20GB e monitore
+variable "my_ip" {
+  description = "Seu endereço IP (CIDR) para acesso SSH, Grafana (3000) e Prometheus (9090)."
+  type        = string
+  # IMPORTANTE: Troque pelo seu IP. Use "0.0.0.0/0" apenas para testes rápidos.
+  default = "YOUR_IP/32"
+}
+
+variable "ebs_device_name" {
+  description = "Nome do dispositivo para o volume EBS persistente."
+  type        = string
+  default     = "/dev/xvdf"
 }
