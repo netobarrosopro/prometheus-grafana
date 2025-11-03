@@ -28,3 +28,9 @@ variable "ebs_device_name" {
   type        = string
   default     = "/dev/xvdf"
 }
+
+variable "aws_key_pair_name" {
+  description = "projeto_gb"
+  type        = string
+  default     = null # Usamos 'null' para tornar opcional
+}
