@@ -3,7 +3,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# 1. VPC
+# VPC
 resource "aws_vpc" "monitoring_vpc" {
   cidr_block = "10.10.0.0/16"
   tags = {
@@ -11,7 +11,7 @@ resource "aws_vpc" "monitoring_vpc" {
   }
 }
 
-# 2. Internet Gateway
+# Internet Gateway
 resource "aws_internet_gateway" "monitoring_igw" {
   vpc_id = aws_vpc.monitoring_vpc.id
   tags = {
@@ -19,7 +19,7 @@ resource "aws_internet_gateway" "monitoring_igw" {
   }
 }
 
-# 3. Sub-rede pública
+# Sub-rede pública
 resource "aws_subnet" "monitoring_subnet" {
   vpc_id                  = aws_vpc.monitoring_vpc.id
   cidr_block              = "10.10.1.0/24"
@@ -31,7 +31,7 @@ resource "aws_subnet" "monitoring_subnet" {
   }
 }
 
-# 4. Tabela de Rotas para a Internet
+# Tabela de Rotas para a Internet
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.monitoring_vpc.id
 
@@ -45,13 +45,13 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-# 5. Associação da Rota
+# Associação da Rota
 resource "aws_route_table_association" "public_assoc" {
   subnet_id      = aws_subnet.monitoring_subnet.id
   route_table_id = aws_route_table.public_rt.id
 }
 
-# 6. Security Group
+# Security Group
 resource "aws_security_group" "monitoring_sg" {
   name        = "${var.project_name}-sg"
   description = "Permite acesso ao Prometheus, Grafana e SSH"
