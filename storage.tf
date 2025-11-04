@@ -1,8 +1,7 @@
 resource "aws_ebs_volume" "prometheus_data" {
   availability_zone = data.aws_availability_zones.available.names[0]
-  size              = 50 # Comece com 50GB
-  type              = "gp3" # gp3 é mais barato e performático
-
+  size              = 50 
+  type              = "gp3" 
   tags = {
     Name = "${var.project_name}-prometheus-data"
   }
