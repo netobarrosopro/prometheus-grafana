@@ -1,4 +1,4 @@
-# 1. IAM Role para a EC2
+# IAM Role para a EC2
 resource "aws_iam_role" "monitoring_role" {
   name = "${var.project_name}-ec2-role"
   assume_role_policy = jsonencode({
@@ -19,7 +19,7 @@ resource "aws_iam_role" "monitoring_role" {
   }
 }
 
-# 2. Política de permissões
+# Política de permissões
 # Esta política dá ao Cloudwatch Exporter acesso de leitura
 resource "aws_iam_policy" "monitoring_policy" {
   name        = "${var.project_name}-read-policy"
@@ -51,18 +51,18 @@ resource "aws_iam_policy" "monitoring_policy" {
         ],
         Resource = "*"
       }
-      # Adicione mais serviços aqui (rds:DescribeDBInstances, etc.)
+      
     ]
   })
 }
 
-# 3. Anexar a Política à Role
+# Anexar a Política à Role
 resource "aws_iam_role_policy_attachment" "monitoring_attach" {
   role       = aws_iam_role.monitoring_role.name
   policy_arn = aws_iam_policy.monitoring_policy.arn
 }
 
-# 4. Criar o Perfil da Instância
+#  Criar o Perfil da Instância
 resource "aws_iam_instance_profile" "monitoring_profile" {
   name = "${var.project_name}-instance-profile"
   role = aws_iam_role.monitoring_role.name
